@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EliteFootballSupply — Camisetas Premium</title>
+  <title>VANTIXCANARION — Camisetas Premium</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <style>
@@ -18,7 +18,7 @@
       --white:    #ffffff;
       --green:    #003399;
       --green-v:  #1a5fd4;
-      --accent:   #f5c400;          /* EFS gold/yellow */
+      --accent:   #f5c400;          /* VTC gold/yellow */
       --muted:    #6b6b6b;
       --border:   rgba(255,255,255,0.08);
 
@@ -1477,6 +1477,41 @@
 <style>
 .sz-btn:hover,.sz-btn.sel{background:#f5c400 !important;color:#0a0a0a !important;border-color:#f5c400 !important}
 </style>
+
+<style>
+/* ── PRODUCT MODAL ── */
+.pm-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:500;opacity:0;pointer-events:none;transition:opacity 0.3s;backdrop-filter:blur(8px)}
+.pm-overlay.open{opacity:1;pointer-events:all}
+.pm-modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-60%);z-index:501;width:90%;max-width:860px;max-height:90vh;overflow-y:auto;background:#080e1a;border:1px solid rgba(245,196,0,0.2);box-shadow:0 40px 120px rgba(0,0,0,0.9);transition:transform 0.4s cubic-bezier(0.16,1,0.3,1),opacity 0.3s;opacity:0;pointer-events:none}
+.pm-modal.open{transform:translate(-50%,-50%);opacity:1;pointer-events:all}
+.pm-inner{display:grid;grid-template-columns:1fr 1fr;min-height:480px}
+.pm-img{background:#0d1628;position:relative;overflow:hidden;min-height:400px}
+.pm-img img{width:100%;height:100%;object-fit:cover;display:block}
+.pm-info{padding:40px;display:flex;flex-direction:column;gap:16px}
+.pm-tag{display:inline-block;font-family:monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;padding:4px 12px;border-radius:2px;background:rgba(245,196,0,0.1);color:#f5c400;border:1px solid rgba(245,196,0,0.25)}
+.pm-title{font-family:"Bebas Neue",sans-serif;font-size:36px;letter-spacing:0.04em;text-transform:uppercase;line-height:0.95;color:#fff}
+.pm-price{font-family:"Bebas Neue",sans-serif;font-size:48px;color:#f5c400;letter-spacing:0.04em;line-height:1}
+.pm-price-orig{font-family:monospace;font-size:16px;color:rgba(255,255,255,0.3);text-decoration:line-through;margin-left:8px}
+.pm-player{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,0.6);padding:10px 14px;background:rgba(255,255,255,0.04);border-left:2px solid #f5c400}
+.pm-desc{font-size:14px;color:rgba(255,255,255,0.55);line-height:1.7}
+.pm-sizes{display:flex;flex-direction:column;gap:8px}
+.pm-size-label{font-family:monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.4)}
+.pm-size-btns{display:flex;gap:8px;flex-wrap:wrap}
+.pm-sz{width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.15);background:transparent;color:#fff;font-family:monospace;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.2s}
+.pm-sz:hover,.pm-sz.sel{background:#f5c400;color:#04080f;border-color:#f5c400}
+.pm-atc{width:100%;height:52px;background:#f5c400;color:#04080f;font-family:sans-serif;font-size:13px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;border:none;cursor:pointer;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));transition:all 0.2s;margin-top:auto}
+.pm-atc:hover{opacity:0.9;transform:translateY(-1px)}
+.pm-close{position:absolute;top:16px;right:16px;width:36px;height:36px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;z-index:10;transition:all 0.2s}
+.pm-close:hover{border-color:#f5c400;color:#f5c400}
+.pm-trust{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.pm-trust-item{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(255,255,255,0.4)}
+/* improved product cards */
+.product-card{cursor:pointer}
+.product-card:hover .product-img-wrap img{transform:scale(1.05)}
+.product-img-wrap img{transition:transform 0.5s cubic-bezier(0.16,1,0.3,1)}
+@media(max-width:640px){.pm-inner{grid-template-columns:1fr}.pm-img{min-height:260px}.pm-info{padding:24px}}
+</style>
+
 </head>
 <body>
 
@@ -1490,11 +1525,35 @@
 <!-- ═══════════════════════════════════════════
      HEADER
 ═══════════════════════════════════════════ -->
+<div id="urgencyBar" style="background:#f5c400;color:#04080f;text-align:center;padding:10px 20px;font-family:monospace;font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;position:relative;z-index:200">
+  &#128293; OFERTA LIMITADA — Envio GRATIS en pedidos +&#8364;50 &nbsp;|&nbsp; Quedan <span id="stockCount">7</span> unidades &nbsp;|&nbsp; 
+  <span id="urgencyTimer"></span>
+</div>
+<script>
+// Countdown 4h
+(function(){
+  var end = Date.now() + 4*60*60*1000;
+  function tick(){
+    var d = end - Date.now();
+    if(d<0){end=Date.now()+4*60*60*1000;return;}
+    var h=Math.floor(d/3600000),m=Math.floor((d%3600000)/60000),s=Math.floor((d%60000)/1000);
+    var el=document.getElementById('urgencyTimer');
+    if(el) el.textContent='Oferta expira en: '+String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  }
+  tick(); setInterval(tick,1000);
+  // Random stock fluctuation
+  var stocks=[7,5,6,4,8,3,6,5];var si=0;
+  setInterval(function(){
+    var el=document.getElementById('stockCount');
+    if(el){si=(si+1)%stocks.length;el.textContent=stocks[si];}
+  },8000);
+})();
+</script>
 <header class="header" id="header">
   <div class="header-inner">
     <a href="#" class="logo">
       <span>⚽</span>
-      ELITE<em style="color:var(--accent);font-style:normal">FOOTBALL</em>SUPPLY
+      VANTIX<em style="color:var(--accent);font-style:normal">CANARION</em>
     </a>
 
     <nav>
@@ -1536,7 +1595,7 @@
     </p>
     <div class="hero-cta-group">
       <a href="#products" class="btn-primary">
-        Ver colección
+        &#128293; Comprar Ahora
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
       </a>
       <a href="#featured" class="btn-ghost">Producto estrella</a>
@@ -1564,7 +1623,7 @@
       <div class="jersey-glow"></div>
 
       <!-- Product Image -->
-      <img src="https://cdn.shopify.com/s/files/1/0987/0449/0840/files/IMG-2875_800x800.jpg?v=1778523957" alt="Camiseta EliteFootballSupply" class="jersey-svg" style="width:380px;height:440px;object-fit:cover;border-radius:4px;filter:drop-shadow(0 32px 64px rgba(0,0,0,0.8))" />
+      <img src="https://cdn.shopify.com/s/files/1/0987/0449/0840/files/IMG-2875_800x800.jpg?v=1778523957" alt="Camiseta VANTIXCANARION" class="jersey-svg" style="width:380px;height:440px;object-fit:cover;border-radius:4px;filter:drop-shadow(0 32px 64px rgba(0,0,0,0.8))" />
       <svg class="jersey-svg" viewBox="0 0 380 440" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:none">
         <defs>
           <linearGradient id="jerseyGrad" x1="0" y1="0" x2="1" y2="1">
@@ -1614,7 +1673,7 @@
           <circle cx="190" cy="168" r="18" fill="rgba(245,196,0,0.08)" stroke="rgba(245,196,0,0.25)" stroke-width="1"/>
           <text x="190" y="173" text-anchor="middle"
                 font-family="'Bebas Neue', sans-serif" font-size="14"
-                fill="#f5c400" letter-spacing="0.15em">EFS</text>
+                fill="#f5c400" letter-spacing="0.15em">VTC</text>
         </g>
       </svg>
 
@@ -1853,7 +1912,7 @@
     <div class="observe-fade">
       <p style="font-family:monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#f5c400;margin-bottom:12px">Prueba Social Real</p>
       <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,5vw,60px);letter-spacing:0.04em;text-transform:uppercase;line-height:0.95;margin-bottom:20px">Lo que dicen<br><span style="color:#f5c400">nuestros clientes</span></h2>
-      <p style="color:rgba(255,255,255,0.5);font-size:15px;line-height:1.7;margin-bottom:32px">No somos nosotros los que lo decimos. Son los cientos de fans que ya visten con EliteFootballSupply los que hablan por nosotros.</p>
+      <p style="color:rgba(255,255,255,0.5);font-size:15px;line-height:1.7;margin-bottom:32px">No somos nosotros los que lo decimos. Son los cientos de fans que ya visten con VANTIXCANARION los que hablan por nosotros.</p>
       <div style="display:flex;gap:32px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.08)">
         <div><div style="font-family:'Bebas Neue',sans-serif;font-size:40px;color:#f5c400">200<span style="font-size:24px">+</span></div><div style="font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:0.1em;text-transform:uppercase">Clientes felices</div></div>
         <div><div style="font-family:'Bebas Neue',sans-serif;font-size:40px;color:#f5c400">4.9<span style="font-size:24px">&#9733;</span></div><div style="font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:0.1em;text-transform:uppercase">Valoracion media</div></div>
@@ -2076,12 +2135,32 @@ function addChatMsg(){
 <!-- ═══════════════════════════════════════════
      FOOTER
 ═══════════════════════════════════════════ -->
+
+<!-- BIZUM PAYMENT -->
+<div style="background:#080e1a;border-top:1px solid rgba(255,255,255,0.06);padding:20px 32px;text-align:center">
+  <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap">
+    <span style="font-family:monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.4)">Tambien puedes pagar con</span>
+    <a href="https://wa.me/34643420372" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:8px 20px;background:#0d1628;border:1px solid rgba(245,196,0,0.3);color:#f5c400;font-size:13px;font-weight:700;text-decoration:none;border-radius:4px;transition:all 0.2s" onmouseover="this.style.borderColor='#f5c400'" onmouseout="this.style.borderColor='rgba(245,196,0,0.3)'">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Pagar por WhatsApp
+    </a>
+    <div style="display:inline-flex;align-items:center;gap:8px;padding:8px 20px;background:#0d1628;border:1px solid rgba(0,102,255,0.3);border-radius:4px">
+      <span style="font-size:20px">💙</span>
+      <div style="text-align:left">
+        <div style="font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:0.1em;text-transform:uppercase">Bizum</div>
+        <div style="font-size:14px;font-weight:700;color:#fff;font-family:monospace">+34 643 42 03 72</div>
+      </div>
+    </div>
+    <span style="font-size:12px;color:rgba(255,255,255,0.3)">&#128274; Pago 100% seguro</span>
+  </div>
+</div>
+
 <footer>
   <div class="footer-inner">
     <div class="footer-top">
       <div>
         <div class="footer-logo">
-          <span>⚽</span> ELITE<span>FOOTBALL</span>SUPPLY
+          <span>⚽</span> VANTIX<span style="color:var(--accent)">CANARION</span>
         </div>
         <p class="footer-tagline">
           Camisetas de fútbol premium para fanáticos que valoran el estilo tanto como el juego.
@@ -2131,7 +2210,7 @@ function addChatMsg(){
     </div>
 
     <div class="footer-bottom">
-      <p class="footer-copy">© 2025 EliteFootballSupply. Todos los derechos reservados.</p>
+      <p class="footer-copy">© 2025 VANTIXCANARION. Todos los derechos reservados.</p>
       <div class="payment-icons">
         <div class="payment-icon">VISA</div>
         <div class="payment-icon">MC</div>
@@ -2189,7 +2268,7 @@ function addChatMsg(){
 ═══════════════════════════════════════════ -->
 <script>
 // ─── CONFIG ─────────────────────────────────
-const SHOPIFY_DOMAIN = 'elitefootballsupply-store.myshopify.com';
+const SHOPIFY_DOMAIN = 'vantixcanarion-store.myshopify.com';
 const STOREFRONT_TOKEN = '513d0eb4ad1bdec4effb9a1a24960270';
 const STOREFRONT_URL = `https://${SHOPIFY_DOMAIN}/api/2024-01/graphql.json`;
 
@@ -2276,7 +2355,7 @@ async function loadProducts() {
 
 function renderStaticProducts() {
   var grid = document.getElementById('productsGrid');
-  grid.innerHTML = '<div class="product-card observe-fade" style="transition-delay:0.0s" data-handle="segunda-equipacion-del-corinthians"><div class="product-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0987/0449/0840/files/image_1b46a851-1adc-443f-a4b7-ba1bf056ea38.png?v=1778523962" alt="Segunda equipación del corinthians" loading="lazy" style="width:100%;height:100%;object-fit:cover"/><span class="product-badge-tag tag-hot">Mas Vendido</span><div class="product-overlay"></div><div class="quick-add"><button class="quick-add-btn" onclick="quickAddFromCard(event,\'segunda-equipacion-del-corinthians\',\'Segunda equipación del corinthians\')">+ Anadir al Carrito</button></div></div><div class="product-info"><div class="product-name">Segunda equipación del corinthians</div><div style="margin:6px 0"><button onclick="selectCardSize(this)" data-price="30.00" class="sz-btn" style="padding:3px 8px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:rgba(255,255,255,0.7);font-size:10px;cursor:pointer;margin:2px;font-family:monospace">M</button></div><div class="product-meta"><div><span class="product-price">EUR30.00</span></div></div></div></div><div class="product-card observe-fade" style="transition-delay:0.06s" data-handle="segunda-equipacion-de-la-seleccion-colombia"><div class="product-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0987/0449/0840/files/C9DB19BA-CB17-4CDE-9EA3-3BB42E102BCC_3d2d024f-15b7-48cf-ba70-e3b0fb612922.png?v=1778523961" alt="Segunda equipación de la selección Colombia" loading="lazy" style="width:100%;height:100%;object-fit:cover"/><span class="product-badge-tag tag-new">Nuevo</span><div class="product-overlay"></div><div class="quick-add"><button class="quick-add-btn" onclick="quickAddFromCard(event,\'segunda-equipacion-de-la-seleccion-colombia\',\'Segunda equipación de la selección Colombia\')">+ Anadir al Carrito</button></div></div><div class="product-info"><div class="product-name">Segunda equipación de la selección Colombia</div><div style="margin:6px 0"><button onclick="selectCardSize(this)" data-price="30.00" class="sz-btn" style="padding:3px 8px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:rgba(255,255,255,0.7);font-size:10px;cursor:pointer;margin:2px;font-family:monospace">M</button></div><div class="product-meta"><div><span class="product-price">EUR30.00</span></div></div></div></div><div class="product-card observe-fade" style="transition-delay:0.12s" data-handle="camisa-de-espana-de-lamine"><div class="product-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0987/0449/0840/files/E8D17E80-D7F0-475B-B26B-A31C54ED6790.png?v=1778523959" alt="Segunda equipación de España" loading="lazy" style="width:100%;height:100%;object-fit:cover"/><span class="product-badge-tag tag-new">Nuevo</span><div class="product-overlay"></div><div class="quick-add"><button class="quick-add-btn" onclick="quickAddFromCard(event,\'camisa-de-espana-de-lamine\',\'Segunda equipación de España\')">+ Anadir al Carrito</button></div></div><div class="product-info"><div class="product-name">Segunda equipación de España</div><div style="margin:6px 0"><button onclick="selectCardSize(this)" data-price="29.99" class="sz-btn" style="padding:3px 8px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:rgba(255,255,255,0.7);font-size:10px;cursor:pointer;margin:2px;font-family:monospace">L</button><button onclick="selectCardSize(this)" data-price="29.99" class="sz-btn" style="padding:3px 8px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:rgba(255,255,255,0.7);font-size:10px;cursor:pointer;margin:2px;font-family:monospace">S</button><button onclick="selectCardSize(this)" data-price="29.99" class="sz-btn" style="padding:3px 8px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:rgba(255,255,255,0.7);font-size:10px;cursor:pointer;margin:2px;font-family:monospace">M</button></div><div class="product-meta"><div><span class="product-price">EUR29.99</span><span class="product-price-orig">EUR37.99</span></div></div></div></div><div class="product-card observe-fade" style="transition-delay:0.18s" data-handle="sporting-goods-example-product-4"><div class="product-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0987/0449/0840/files/IMG-2875.jpg?v=1778523957" alt="Segunda equipación de Argentina" loading="lazy" style="width:100%;height:100%;object-fit:cover"/><div class="product-overlay"></div><div class="quick-add"><button class="quick-add-btn" onclick="quickAddFromCard(event,\'sporting-goods-example-product-4\',\'Segunda equipación de Argentina\')">+ Anadir al Carrito</button></div></div><div class="product-info"><div class="product-name">Segunda equipación de Argentina</div><div style="margin:6px 0"><button onclick="selectCardSize(this)" data-price="29.99" class="sz-btn" style="padding:3px 8px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:rgba(255,255,255,0.7);font-size:10px;cursor:pointer;margin:2px;font-family:monospace">S</button><button onclick="selectCardSize(this)" data-price="29.99" class="sz-btn" style="padding:3px 8px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:rgba(255,255,255,0.7);font-size:10px;cursor:pointer;margin:2px;font-family:monospace">M</button></div><div class="product-meta"><div><span class="product-price">EUR29.99</span><span class="product-price-orig">EUR37.99</span></div></div></div></div><div class="product-card observe-fade" style="transition-delay:0.24s" data-handle="retro-2012-2013-del-santos"><div class="product-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0987/0449/0840/files/1707EE1D-B3B6-465F-8902-1A830F91C5CE.png?v=1778523956" alt="Retro 2012-2013 del santos" loading="lazy" style="width:100%;height:100%;object-fit:cover"/><div class="product-overlay"></div><div class="quick-add"><button class="quick-add-btn" onclick="quickAddFromCard(event,\'retro-2012-2013-del-santos\',\'Retro 2012-2013 del santos\')">+ Anadir al Carrito</button></div></div><div class="product-info"><div class="product-name">Retro 2012-2013 del santos</div><div style="margin:6px 0"><button onclick="selectCardSize(this)" data-price="30.00" class="sz-btn" style="padding:3px 8px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:rgba(255,255,255,0.7);font-size:10px;cursor:pointer;margin:2px;font-family:monospace">M</button></div><div class="product-meta"><div><span class="product-price">EUR30.00</span></div></div></div></div><div class="product-card observe-fade" style="transition-delay:0.3s" data-handle="primera-equipacion-del-madrid"><div class="product-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0987/0449/0840/files/image_a32b628f-231d-49ee-ac7f-25b7a24b8f98.png?v=1778523954" alt="Primera equipación del Madrid" loading="lazy" style="width:100%;height:100%;object-fit:cover"/><div class="product-overlay"></div><div class="quick-add"><button class="quick-add-btn" onclick="quickAddFromCard(event,\'primera-equipacion-del-madrid\',\'Primera equipación del Madrid\')">+ Anadir al Carrito</button></div></div><div class="product-info"><div class="product-name">Primera equipación del Madrid</div><div style="margin:6px 0"><button onclick="selectCardSize(this)" data-price="30.00" class="sz-btn" style="padding:3px 8px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:rgba(255,255,255,0.7);font-size:10px;cursor:pointer;margin:2px;font-family:monospace">L</button></div><div class="product-meta"><div><span class="product-price">EUR30.00</span></div></div></div></div><div class="product-card observe-fade" style="transition-delay:0.36s" data-handle="primera-equipacion-del-inter-de-miami"><div class="product-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0987/0449/0840/files/image.png?v=1778523952" alt="Primera equipación del Inter de Miami" loading="lazy" style="width:100%;height:100%;object-fit:cover"/><div class="product-overlay"></div><div class="quick-add"><button class="quick-add-btn" onclick="quickAddFromCard(event,\'primera-equipacion-del-inter-de-miami\',\'Primera equipación del Inter de Miami\')">+ Anadir al Carrito</button></div></div><div class="product-info"><div class="product-name">Primera equipación del Inter de Miami</div><div style="margin:6px 0"><button onclick="selectCardSize(this)" data-price="30.00" class="sz-btn" style="padding:3px 8px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:rgba(255,255,255,0.7);font-size:10px;cursor:pointer;margin:2px;font-family:monospace">S</button></div><div class="product-meta"><div><span class="product-price">EUR30.00</span></div></div></div></div><div class="product-card observe-fade" style="transition-delay:0.42s" data-handle="sporting-goods-example-product-2"><div class="product-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0987/0449/0840/files/D627C4C5-DC45-46F4-8404-A0CA08948AB2.png?v=1778523951" alt="Primera equipación del Barcelona 25/26" loading="lazy" style="width:100%;height:100%;object-fit:cover"/><div class="product-overlay"></div><div class="quick-add"><button class="quick-add-btn" onclick="quickAddFromCard(event,\'sporting-goods-example-product-2\',\'Primera equipación del Barcelona 25/26\')">+ Anadir al Carrito</button></div></div><div class="product-info"><div class="product-name">Primera equipación del Barcelona 25/26</div><div style="margin:6px 0"><button onclick="selectCardSize(this)" data-price="29.99" class="sz-btn" style="padding:3px 8px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:rgba(255,255,255,0.7);font-size:10px;cursor:pointer;margin:2px;font-family:monospace">S</button></div><div class="product-meta"><div><span class="product-price">EUR29.99</span><span class="product-price-orig">EUR37.99</span></div></div></div></div><div class="product-card observe-fade" style="transition-delay:0.48s" data-handle="general-clothes-example-product-3"><div class="product-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0987/0449/0840/files/4E47F3E3-6229-4904-B04B-ABEC22ECF7B5.png?v=1778523950" alt="Primera equipación de Portugal" loading="lazy" style="width:100%;height:100%;object-fit:cover"/><div class="product-overlay"></div><div class="quick-add"><button class="quick-add-btn" onclick="quickAddFromCard(event,\'general-clothes-example-product-3\',\'Primera equipación de Portugal\')">+ Anadir al Carrito</button></div></div><div class="product-info"><div class="product-name">Primera equipación de Portugal</div><div style="margin:6px 0"><button onclick="selectCardSize(this)" data-price="29.99" class="sz-btn" style="padding:3px 8px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:rgba(255,255,255,0.7);font-size:10px;cursor:pointer;margin:2px;font-family:monospace">M</button></div><div class="product-meta"><div><span class="product-price">EUR29.99</span><span class="product-price-orig">EUR37.99</span></div></div></div></div><div class="product-card observe-fade" style="transition-delay:0.54s" data-handle="primera-equipacion-de-la-seleccion-colombia"><div class="product-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0987/0449/0840/files/CBC78F7D-F915-4403-A8DB-DAC34F9ED034.png?v=1778523945" alt="Primera equipación de la Selección Colombia" loading="lazy" style="width:100%;height:100%;object-fit:cover"/><div class="product-overlay"></div><div class="quick-add"><button class="quick-add-btn" onclick="quickAddFromCard(event,\'primera-equipacion-de-la-seleccion-colombia\',\'Primera equipación de la Selección Colombia\')">+ Anadir al Carrito</button></div></div><div class="product-info"><div class="product-name">Primera equipación de la Selección Colombia</div><div style="margin:6px 0"><button onclick="selectCardSize(this)" data-price="30.00" class="sz-btn" style="padding:3px 8px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:rgba(255,255,255,0.7);font-size:10px;cursor:pointer;margin:2px;font-family:monospace">M</button></div><div class="product-meta"><div><span class="product-price">EUR30.00</span></div></div></div></div><div class="product-card observe-fade" style="transition-delay:0.6s" data-handle="especial-edicion-de-messi"><div class="product-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0987/0449/0840/files/image_fb1a82b7-7073-42da-804e-32cb87541573.png?v=1778523943" alt="Especial edición de Messi" loading="lazy" style="width:100%;height:100%;object-fit:cover"/><div class="product-overlay"></div><div class="quick-add"><button class="quick-add-btn" onclick="quickAddFromCard(event,\'especial-edicion-de-messi\',\'Especial edición de Messi\')">+ Anadir al Carrito</button></div></div><div class="product-info"><div class="product-name">Especial edición de Messi</div><div style="margin:6px 0"><button onclick="selectCardSize(this)" data-price="30.00" class="sz-btn" style="padding:3px 8px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:rgba(255,255,255,0.7);font-size:10px;cursor:pointer;margin:2px;font-family:monospace">M</button></div><div class="product-meta"><div><span class="product-price">EUR30.00</span></div></div></div></div><div class="product-card observe-fade" style="transition-delay:0.6599999999999999s" data-handle="equipacion-barcelona-24-25"><div class="product-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0987/0449/0840/files/A1399F95-E5CB-433C-89A4-2266EFC85B50.png?v=1778523942" alt="Equipación Barcelona 24/25" loading="lazy" style="width:100%;height:100%;object-fit:cover"/><div class="product-overlay"></div><div class="quick-add"><button class="quick-add-btn" onclick="quickAddFromCard(event,\'equipacion-barcelona-24-25\',\'Equipación Barcelona 24/25\')">+ Anadir al Carrito</button></div></div><div class="product-info"><div class="product-name">Equipación Barcelona 24/25</div><div style="margin:6px 0"><button onclick="selectCardSize(this)" data-price="30.00" class="sz-btn" style="padding:3px 8px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:rgba(255,255,255,0.7);font-size:10px;cursor:pointer;margin:2px;font-family:monospace">S</button></div><div class="product-meta"><div><span class="product-price">EUR30.00</span></div></div></div></div><div class="product-card observe-fade" style="transition-delay:0.72s" data-handle="sporting-goods-example-product-1"><div class="product-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0987/0449/0840/files/C766F65A-70C5-479F-8A1E-E76DC5E288D5.png?v=1778523939" alt="Camiseta del Barcelona Aurora" loading="lazy" style="width:100%;height:100%;object-fit:cover"/><div class="product-overlay"></div><div class="quick-add"><button class="quick-add-btn" onclick="quickAddFromCard(event,\'sporting-goods-example-product-1\',\'Camiseta del Barcelona Aurora\')">+ Anadir al Carrito</button></div></div><div class="product-info"><div class="product-name">Camiseta del Barcelona Aurora</div><div style="margin:6px 0"><button onclick="selectCardSize(this)" data-price="29.99" class="sz-btn" style="padding:3px 8px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:rgba(255,255,255,0.7);font-size:10px;cursor:pointer;margin:2px;font-family:monospace">M</button></div><div class="product-meta"><div><span class="product-price">EUR29.99</span></div></div></div></div>';
+  grid.innerHTML = '<div class="product-card observe-fade" style="transition-delay:0.0s" onclick="openPM(\'segunda-equipacion-del-corinthians\')"><div class="product-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0987/0449/0840/files/image_1b46a851-1adc-443f-a4b7-ba1bf056ea38.png?v=1778523962" alt="Segunda equipación del corinthians" loading="lazy" style="width:100%;height:100%;object-fit:cover"/><span class="product-badge-tag tag-hot">&#128293; Mas Vendido</span><div class="product-overlay"></div><div class="quick-add"><button class="quick-add-btn" onclick="event.stopPropagation();openPM(\'segunda-equipacion-del-corinthians\')">Ver detalles &#8594;</button></div></div><div class="product-info"><div class="product-name">Segunda equipación del corinthians</div><div style="font-size:10px;color:rgba(255,255,255,0.45);margin:4px 0 2px;font-family:monospace">&#9917; Memphis</div><div style="margin:4px 0"><span style="display:inline-block;padding:2px 6px;border:1px solid rgba(255,255,255,0.15);font-size:9px;margin:2px;font-family:monospace;color:rgba(255,255,255,0.6)">M</span></div><div class="product-meta"><div><span class="product-price">&#8364;30.00</span></div></div></div></div><div class="product-card observe-fade" style="transition-delay:0.06s" onclick="openPM(\'segunda-equipacion-de-la-seleccion-colombia\')"><div class="product-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0987/0449/0840/files/C9DB19BA-CB17-4CDE-9EA3-3BB42E102BCC_3d2d024f-15b7-48cf-ba70-e3b0fb612922.png?v=1778523961" alt="Segunda equipación de la selección Colombia" loading="lazy" style="width:100%;height:100%;object-fit:cover"/><span class="product-badge-tag tag-new">Nuevo</span><div class="product-overlay"></div><div class="quick-add"><button class="quick-add-btn" onclick="event.stopPropagation();openPM(\'segunda-equipacion-de-la-seleccion-colombia\')">Ver detalles &#8594;</button></div></div><div class="product-info"><div class="product-name">Segunda equipación de la selección Colombia</div><div style="font-size:10px;color:rgba(255,255,255,0.45);margin:4px 0 2px;font-family:monospace">&#9917; Luis Diaz</div><div style="margin:4px 0"><span style="display:inline-block;padding:2px 6px;border:1px solid rgba(255,255,255,0.15);font-size:9px;margin:2px;font-family:monospace;color:rgba(255,255,255,0.6)">M</span></div><div class="product-meta"><div><span class="product-price">&#8364;30.00</span></div></div></div></div><div class="product-card observe-fade" style="transition-delay:0.12s" onclick="openPM(\'camisa-de-espana-de-lamine\')"><div class="product-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0987/0449/0840/files/E8D17E80-D7F0-475B-B26B-A31C54ED6790.png?v=1778523959" alt="Segunda equipación de España" loading="lazy" style="width:100%;height:100%;object-fit:cover"/><span class="product-badge-tag tag-new">Nuevo</span><div class="product-overlay"></div><div class="quick-add"><button class="quick-add-btn" onclick="event.stopPropagation();openPM(\'camisa-de-espana-de-lamine\')">Ver detalles &#8594;</button></div></div><div class="product-info"><div class="product-name">Segunda equipación de España</div><div style="margin:4px 0"><span style="display:inline-block;padding:2px 6px;border:1px solid rgba(255,255,255,0.15);font-size:9px;margin:2px;font-family:monospace;color:rgba(255,255,255,0.6)">L</span><span style="display:inline-block;padding:2px 6px;border:1px solid rgba(255,255,255,0.15);font-size:9px;margin:2px;font-family:monospace;color:rgba(255,255,255,0.6)">S</span><span style="display:inline-block;padding:2px 6px;border:1px solid rgba(255,255,255,0.15);font-size:9px;margin:2px;font-family:monospace;color:rgba(255,255,255,0.6)">M</span></div><div class="product-meta"><div><span class="product-price">&#8364;29.99</span><span class="product-price-orig">&#8364;37.99</span></div></div></div></div><div class="product-card observe-fade" style="transition-delay:0.18s" onclick="openPM(\'sporting-goods-example-product-4\')"><div class="product-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0987/0449/0840/files/IMG-2875.jpg?v=1778523957" alt="Segunda equipación de Argentina" loading="lazy" style="width:100%;height:100%;object-fit:cover"/><span class="product-badge-tag tag-sale">Oferta</span><div class="product-overlay"></div><div class="quick-add"><button class="quick-add-btn" onclick="event.stopPropagation();openPM(\'sporting-goods-example-product-4\')">Ver detalles &#8594;</button></div></div><div class="product-info"><div class="product-name">Segunda equipación de Argentina</div><div style="margin:4px 0"><span style="display:inline-block;padding:2px 6px;border:1px solid rgba(255,255,255,0.15);font-size:9px;margin:2px;font-family:monospace;color:rgba(255,255,255,0.6)">S</span><span style="display:inline-block;padding:2px 6px;border:1px solid rgba(255,255,255,0.15);font-size:9px;margin:2px;font-family:monospace;color:rgba(255,255,255,0.6)">M</span></div><div class="product-meta"><div><span class="product-price">&#8364;29.99</span><span class="product-price-orig">&#8364;37.99</span></div></div></div></div><div class="product-card observe-fade" style="transition-delay:0.24s" onclick="openPM(\'retro-2012-2013-del-santos\')"><div class="product-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0987/0449/0840/files/1707EE1D-B3B6-465F-8902-1A830F91C5CE.png?v=1778523956" alt="Retro 2012-2013 del santos" loading="lazy" style="width:100%;height:100%;object-fit:cover"/><div class="product-overlay"></div><div class="quick-add"><button class="quick-add-btn" onclick="event.stopPropagation();openPM(\'retro-2012-2013-del-santos\')">Ver detalles &#8594;</button></div></div><div class="product-info"><div class="product-name">Retro 2012-2013 del santos</div><div style="margin:4px 0"><span style="display:inline-block;padding:2px 6px;border:1px solid rgba(255,255,255,0.15);font-size:9px;margin:2px;font-family:monospace;color:rgba(255,255,255,0.6)">M</span></div><div class="product-meta"><div><span class="product-price">&#8364;30.00</span></div></div></div></div><div class="product-card observe-fade" style="transition-delay:0.3s" onclick="openPM(\'primera-equipacion-del-madrid\')"><div class="product-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0987/0449/0840/files/image_a32b628f-231d-49ee-ac7f-25b7a24b8f98.png?v=1778523954" alt="Primera equipación del Madrid" loading="lazy" style="width:100%;height:100%;object-fit:cover"/><div class="product-overlay"></div><div class="quick-add"><button class="quick-add-btn" onclick="event.stopPropagation();openPM(\'primera-equipacion-del-madrid\')">Ver detalles &#8594;</button></div></div><div class="product-info"><div class="product-name">Primera equipación del Madrid</div><div style="margin:4px 0"><span style="display:inline-block;padding:2px 6px;border:1px solid rgba(255,255,255,0.15);font-size:9px;margin:2px;font-family:monospace;color:rgba(255,255,255,0.6)">L</span></div><div class="product-meta"><div><span class="product-price">&#8364;30.00</span></div></div></div></div><div class="product-card observe-fade" style="transition-delay:0.36s" onclick="openPM(\'primera-equipacion-del-inter-de-miami\')"><div class="product-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0987/0449/0840/files/image.png?v=1778523952" alt="Primera equipación del Inter de Miami" loading="lazy" style="width:100%;height:100%;object-fit:cover"/><div class="product-overlay"></div><div class="quick-add"><button class="quick-add-btn" onclick="event.stopPropagation();openPM(\'primera-equipacion-del-inter-de-miami\')">Ver detalles &#8594;</button></div></div><div class="product-info"><div class="product-name">Primera equipación del Inter de Miami</div><div style="margin:4px 0"><span style="display:inline-block;padding:2px 6px;border:1px solid rgba(255,255,255,0.15);font-size:9px;margin:2px;font-family:monospace;color:rgba(255,255,255,0.6)">S</span></div><div class="product-meta"><div><span class="product-price">&#8364;30.00</span></div></div></div></div><div class="product-card observe-fade" style="transition-delay:0.42s" onclick="openPM(\'sporting-goods-example-product-2\')"><div class="product-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0987/0449/0840/files/D627C4C5-DC45-46F4-8404-A0CA08948AB2.png?v=1778523951" alt="Primera equipación del Barcelona 25/26" loading="lazy" style="width:100%;height:100%;object-fit:cover"/><span class="product-badge-tag tag-sale">Oferta</span><div class="product-overlay"></div><div class="quick-add"><button class="quick-add-btn" onclick="event.stopPropagation();openPM(\'sporting-goods-example-product-2\')">Ver detalles &#8594;</button></div></div><div class="product-info"><div class="product-name">Primera equipación del Barcelona 25/26</div><div style="margin:4px 0"><span style="display:inline-block;padding:2px 6px;border:1px solid rgba(255,255,255,0.15);font-size:9px;margin:2px;font-family:monospace;color:rgba(255,255,255,0.6)">S</span></div><div class="product-meta"><div><span class="product-price">&#8364;29.99</span><span class="product-price-orig">&#8364;37.99</span></div></div></div></div><div class="product-card observe-fade" style="transition-delay:0.48s" onclick="openPM(\'general-clothes-example-product-3\')"><div class="product-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0987/0449/0840/files/4E47F3E3-6229-4904-B04B-ABEC22ECF7B5.png?v=1778523950" alt="Primera equipación de Portugal" loading="lazy" style="width:100%;height:100%;object-fit:cover"/><span class="product-badge-tag tag-sale">Oferta</span><div class="product-overlay"></div><div class="quick-add"><button class="quick-add-btn" onclick="event.stopPropagation();openPM(\'general-clothes-example-product-3\')">Ver detalles &#8594;</button></div></div><div class="product-info"><div class="product-name">Primera equipación de Portugal</div><div style="margin:4px 0"><span style="display:inline-block;padding:2px 6px;border:1px solid rgba(255,255,255,0.15);font-size:9px;margin:2px;font-family:monospace;color:rgba(255,255,255,0.6)">M</span></div><div class="product-meta"><div><span class="product-price">&#8364;29.99</span><span class="product-price-orig">&#8364;37.99</span></div></div></div></div><div class="product-card observe-fade" style="transition-delay:0.54s" onclick="openPM(\'primera-equipacion-de-la-seleccion-colombia\')"><div class="product-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0987/0449/0840/files/CBC78F7D-F915-4403-A8DB-DAC34F9ED034.png?v=1778523945" alt="Primera equipación de la Selección Colombia" loading="lazy" style="width:100%;height:100%;object-fit:cover"/><div class="product-overlay"></div><div class="quick-add"><button class="quick-add-btn" onclick="event.stopPropagation();openPM(\'primera-equipacion-de-la-seleccion-colombia\')">Ver detalles &#8594;</button></div></div><div class="product-info"><div class="product-name">Primera equipación de la Selección Colombia</div><div style="margin:4px 0"><span style="display:inline-block;padding:2px 6px;border:1px solid rgba(255,255,255,0.15);font-size:9px;margin:2px;font-family:monospace;color:rgba(255,255,255,0.6)">M</span></div><div class="product-meta"><div><span class="product-price">&#8364;30.00</span></div></div></div></div><div class="product-card observe-fade" style="transition-delay:0.6s" onclick="openPM(\'especial-edicion-de-messi\')"><div class="product-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0987/0449/0840/files/image_fb1a82b7-7073-42da-804e-32cb87541573.png?v=1778523943" alt="Especial edición de Messi" loading="lazy" style="width:100%;height:100%;object-fit:cover"/><div class="product-overlay"></div><div class="quick-add"><button class="quick-add-btn" onclick="event.stopPropagation();openPM(\'especial-edicion-de-messi\')">Ver detalles &#8594;</button></div></div><div class="product-info"><div class="product-name">Especial edición de Messi</div><div style="margin:4px 0"><span style="display:inline-block;padding:2px 6px;border:1px solid rgba(255,255,255,0.15);font-size:9px;margin:2px;font-family:monospace;color:rgba(255,255,255,0.6)">M</span></div><div class="product-meta"><div><span class="product-price">&#8364;30.00</span></div></div></div></div><div class="product-card observe-fade" style="transition-delay:0.66s" onclick="openPM(\'equipacion-barcelona-24-25\')"><div class="product-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0987/0449/0840/files/A1399F95-E5CB-433C-89A4-2266EFC85B50.png?v=1778523942" alt="Equipación Barcelona 24/25" loading="lazy" style="width:100%;height:100%;object-fit:cover"/><div class="product-overlay"></div><div class="quick-add"><button class="quick-add-btn" onclick="event.stopPropagation();openPM(\'equipacion-barcelona-24-25\')">Ver detalles &#8594;</button></div></div><div class="product-info"><div class="product-name">Equipación Barcelona 24/25</div><div style="margin:4px 0"><span style="display:inline-block;padding:2px 6px;border:1px solid rgba(255,255,255,0.15);font-size:9px;margin:2px;font-family:monospace;color:rgba(255,255,255,0.6)">S</span></div><div class="product-meta"><div><span class="product-price">&#8364;30.00</span></div></div></div></div><div class="product-card observe-fade" style="transition-delay:0.72s" onclick="openPM(\'sporting-goods-example-product-1\')"><div class="product-img-wrap"><img src="https://cdn.shopify.com/s/files/1/0987/0449/0840/files/C766F65A-70C5-479F-8A1E-E76DC5E288D5.png?v=1778523939" alt="Camiseta del Barcelona Aurora" loading="lazy" style="width:100%;height:100%;object-fit:cover"/><div class="product-overlay"></div><div class="quick-add"><button class="quick-add-btn" onclick="event.stopPropagation();openPM(\'sporting-goods-example-product-1\')">Ver detalles &#8594;</button></div></div><div class="product-info"><div class="product-name">Camiseta del Barcelona Aurora</div><div style="margin:4px 0"><span style="display:inline-block;padding:2px 6px;border:1px solid rgba(255,255,255,0.15);font-size:9px;margin:2px;font-family:monospace;color:rgba(255,255,255,0.6)">M</span></div><div class="product-meta"><div><span class="product-price">&#8364;29.99</span></div></div></div></div>';
   observeElements();
 }
 
@@ -2420,7 +2499,7 @@ function loadFeaturedProduct(product) {
 
   // Description from tags or fallback
   document.getElementById('featuredDesc').textContent =
-    `Camiseta premium de la colección EliteFootballSupply. Tejido técnico transpirable, corte ajustado moderno y diseño minimalista para el fanático que no sacrifica estilo. Lavado a 30°C, no usar secadora.`;
+    `Camiseta premium de la colección VANTIXCANARION. Tejido técnico transpirable, corte ajustado moderno y diseño minimalista para el fanático que no sacrifica estilo. Lavado a 30°C, no usar secadora.`;
 
   // Main image
   if (imgUrl) {
@@ -2668,7 +2747,7 @@ function showFallbackProducts() {
   // Featured fallback
   document.getElementById('featuredTitle').textContent = 'Jersey Élite Negro';
   document.getElementById('featuredPrice').textContent = '€54.99';
-  document.getElementById('featuredDesc').textContent = 'Camiseta premium de la colección EliteFootballSupply. Tejido técnico transpirable, corte ajustado moderno y diseño minimalista.';
+  document.getElementById('featuredDesc').textContent = 'Camiseta premium de la colección VANTIXCANARION. Tejido técnico transpirable, corte ajustado moderno y diseño minimalista.';
   const sizes = ['XS','S','M','L','XL','XXL'];
   document.getElementById('sizeGrid').innerHTML = sizes.map((s,i) =>
     `<button class="size-btn${i===2?' active':''}" data-size="${s}" onclick="selectSize(this,'fallback-${s}')">${s}</button>`
@@ -2728,5 +2807,175 @@ async function quickAddFromCard(event, handle, title) {
 }
 </script>
 
+
+<!-- PRODUCT MODAL -->
+<div class="pm-overlay" id="pmOverlay" onclick="closePM()"></div>
+<div class="pm-modal" id="pmModal">
+  <div style="position:relative">
+    <button class="pm-close" onclick="closePM()">&#10005;</button>
+  </div>
+  <div class="pm-inner">
+    <div class="pm-img" id="pmImg"></div>
+    <div class="pm-info">
+      <div class="pm-tag" id="pmTag">Camiseta Premium</div>
+      <h2 class="pm-title" id="pmTitle"></h2>
+      <div>
+        <span class="pm-price" id="pmPrice"></span>
+        <span class="pm-price-orig" id="pmCompare" style="display:none"></span>
+      </div>
+      <div class="pm-player" id="pmPlayer" style="display:none">
+        <span>&#9917;</span><span id="pmPlayerText"></span>
+      </div>
+      <p class="pm-desc" id="pmDesc"></p>
+      <div class="pm-sizes">
+        <div class="pm-size-label">Selecciona tu talla</div>
+        <div class="pm-size-btns" id="pmSizes"></div>
+      </div>
+      <div class="pm-trust">
+        <div class="pm-trust-item"><span style="color:#f5c400">&#10003;</span> Envio gratis +&#8364;50</div>
+        <div class="pm-trust-item"><span style="color:#f5c400">&#10003;</span> Entrega 24-48h</div>
+        <div class="pm-trust-item"><span style="color:#f5c400">&#10003;</span> Devolucion 30 dias</div>
+      </div>
+      <button class="pm-atc" id="pmAtc" onclick="addFromModal()">&#128293; Anadir al carrito — Quedan pocas unidades</button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+var PRODUCTS = [{"title": "Segunda equipación del corinthians", "price": "30.00", "compare": "", "image": "https://cdn.shopify.com/s/files/1/0987/0449/0840/files/image_1b46a851-1adc-443f-a4b7-ba1bf056ea38.png?v=1778523962", "desc": "Camiseta deportiva de diseño moderno que combina negro intenso en un patrón geométrico dinámico. Su estética llamativa la convierte en una prenda ideal tanto para looks urbanos como para uso deportivo. Tejido técnico lig", "variants": ["M"], "handle": "segunda-equipacion-del-corinthians"}, {"title": "Segunda equipación de la selección Colombia", "price": "30.00", "compare": "", "image": "https://cdn.shopify.com/s/files/1/0987/0449/0840/files/C9DB19BA-CB17-4CDE-9EA3-3BB42E102BCC_3d2d024f-15b7-48cf-ba70-e3b0fb612922.png?v=1778523961", "desc": "Camiseta deportiva de diseño moderno que combina rojo intenso en un patrón geométrico dinámico. Su estética llamativa la convierte en una prenda ideal tanto para looks urbanos como para uso deportivo. Tejido técnico lige", "variants": ["M"], "handle": "segunda-equipacion-de-la-seleccion-colombia"}, {"title": "Segunda equipación de España", "price": "29.99", "compare": "37.99", "image": "https://cdn.shopify.com/s/files/1/0987/0449/0840/files/E8D17E80-D7F0-475B-B26B-A31C54ED6790.png?v=1778523959", "desc": "Descripción Camiseta blanca con detalles en rojo y acabado texturizado que aporta un toque sofisticado y premium. Su diseño limpio y elegante la hace perfecta para un look refinado sin perder el estilo deportivo.Tejido s", "variants": ["L", "S", "M"], "handle": "camisa-de-espana-de-lamine"}, {"title": "Segunda equipación de Argentina", "price": "29.99", "compare": "37.99", "image": "https://cdn.shopify.com/s/files/1/0987/0449/0840/files/IMG-2875.jpg?v=1778523957", "desc": "Camiseta de alto impacto visual con base negra y gráficos en azul eléctrico que crean un diseño fluido y llamativo. Perfecta para destacar con un look moderno y agresivo, combinando estilo urbano y deportivo. Tejido técn", "variants": ["S", "M"], "handle": "sporting-goods-example-product-4"}, {"title": "Retro 2012-2013 del santos", "price": "30.00", "compare": "", "image": "https://cdn.shopify.com/s/files/1/0987/0449/0840/files/1707EE1D-B3B6-465F-8902-1A830F91C5CE.png?v=1778523956", "desc": "Camiseta deportiva de diseño moderno que combina blanco y negro intenso en un patrón geométrico dinámico. Su estética llamativa la convierte en una prenda ideal tanto para looks urbanos como para uso deportivo. Tejido té", "variants": ["M"], "handle": "retro-2012-2013-del-santos"}, {"title": "Primera equipación del Madrid", "price": "30.00", "compare": "", "image": "https://cdn.shopify.com/s/files/1/0987/0449/0840/files/image_a32b628f-231d-49ee-ac7f-25b7a24b8f98.png?v=1778523954", "desc": "Camiseta Real Madrid Azul – Estilo y Rendimiento Premium Luce el orgullo madridista con esta elegante camiseta en color azul, diseñada para quienes quieren destacar dentro y fuera del campo. Con un diseño moderno y minim", "variants": ["L"], "handle": "primera-equipacion-del-madrid"}, {"title": "Primera equipación del Inter de Miami", "price": "30.00", "compare": "", "image": "https://cdn.shopify.com/s/files/1/0987/0449/0840/files/image.png?v=1778523952", "desc": "Camiseta deportiva de diseño moderno que combina rosa intenso en un patrón geométrico dinámico. Su estética llamativa la convierte en una prenda ideal tanto para looks urbanos como para uso deportivo. Tejido técnico lige", "variants": ["S"], "handle": "primera-equipacion-del-inter-de-miami"}, {"title": "Primera equipación del Barcelona 25/26", "price": "29.99", "compare": "37.99", "image": "https://cdn.shopify.com/s/files/1/0987/0449/0840/files/D627C4C5-DC45-46F4-8404-A0CA08948AB2.png?v=1778523951", "desc": "Camiseta deportiva de diseño moderno que combina azul marino y rojo intenso en un patrón geométrico dinámico. Su estética llamativa la convierte en una prenda ideal tanto para looks urbanos como para uso deportivo. Tejid", "variants": ["S"], "handle": "sporting-goods-example-product-2"}, {"title": "Primera equipación de Portugal", "price": "29.99", "compare": "37.99", "image": "https://cdn.shopify.com/s/files/1/0987/0449/0840/files/4E47F3E3-6229-4904-B04B-ABEC22ECF7B5.png?v=1778523950", "desc": "Camiseta roja con diseño sutil de ondas en relieve que le da un toque sofisticado sin perder el estilo deportivo. Detalles en verde en cuello y mangas que aportan contraste y personalidad. Tejido suave y ligero que garan", "variants": ["M"], "handle": "general-clothes-example-product-3"}, {"title": "Primera equipación de la Selección Colombia", "price": "30.00", "compare": "", "image": "https://cdn.shopify.com/s/files/1/0987/0449/0840/files/CBC78F7D-F915-4403-A8DB-DAC34F9ED034.png?v=1778523945", "desc": "Camiseta deportiva de diseño moderno que con su amarillo intenso en un patrón geométrico dinámico destaca en todo lado . Su estética llamativa la convierte en una prenda ideal tanto para looks urbanos como para uso depor", "variants": ["M"], "handle": "primera-equipacion-de-la-seleccion-colombia"}, {"title": "Especial edición de Messi", "price": "30.00", "compare": "", "image": "https://cdn.shopify.com/s/files/1/0987/0449/0840/files/image_fb1a82b7-7073-42da-804e-32cb87541573.png?v=1778523943", "desc": "Camiseta deportiva de diseño moderno que combina todos los quipos en los que a estado Messi en un patrón geométrico dinámico. Su estética llamativa la convierte en una prenda ideal tanto para looks urbanos como para uso ", "variants": ["M"], "handle": "especial-edicion-de-messi"}, {"title": "Equipación Barcelona 24/25", "price": "30.00", "compare": "", "image": "https://cdn.shopify.com/s/files/1/0987/0449/0840/files/A1399F95-E5CB-433C-89A4-2266EFC85B50.png?v=1778523942", "desc": "Camiseta deportiva de diseño moderno que con su negro intenso en un patrón geométrico dinámico destaca más que cualquiera . Su estética llamativa la convierte en una prenda ideal tanto para looks urbanos como para uso de", "variants": ["S"], "handle": "equipacion-barcelona-24-25"}, {"title": "Camiseta del Barcelona Aurora", "price": "29.99", "compare": "", "image": "https://cdn.shopify.com/s/files/1/0987/0449/0840/files/C766F65A-70C5-479F-8A1E-E76DC5E288D5.png?v=1778523939", "desc": "Camiseta deportiva de diseño moderno que combina rosa intenso en un patrón geométrico dinámico. Su estética llamativa la convierte en una prenda ideal tanto para looks urbanos como para uso deportivo. Tejido técnico lige", "variants": ["M"], "handle": "sporting-goods-example-product-1"}];
+var PLAYERS = {"segunda-equipacion-de-espana": "Lamine Yamal · Pedri", "segunda-equipacion-de-la-seleccion-colombia": "Luis Diaz", "segunda-equipacion-del-corinthians": "Memphis", "segunda-equipacion-de-argentina": "Messi", "segunda-equipacion-de-portugal": "Ronaldo", "camiseta-del-real-madrid": "Mbappe", "camiseta-del-santos": "Neymar", "barcelona-negra": "Pedri", "barcelona-aurora": "Pedri · Lamine Yamal"};
+var pmProduct = null;
+var pmSelectedSize = null;
+
+function openPM(handle) {
+  var p = PRODUCTS.find(function(x){ return x.handle === handle; });
+  if(!p) return;
+  pmProduct = p;
+  pmSelectedSize = null;
+
+  document.getElementById('pmTitle').textContent = p.title;
+  document.getElementById('pmPrice').textContent = '\u20ac' + p.price;
+  var cmp = document.getElementById('pmCompare');
+  if(p.compare){ cmp.textContent = '\u20ac' + p.compare; cmp.style.display='inline'; }
+  else { cmp.style.display='none'; }
+
+  document.getElementById('pmImg').innerHTML = '<img src="'+p.image+'" alt="'+p.title+'"/>';
+  document.getElementById('pmDesc').textContent = p.desc;
+
+  var player = PLAYERS[handle];
+  var playerEl = document.getElementById('pmPlayer');
+  if(player){ document.getElementById('pmPlayerText').textContent = 'Nombre en la camiseta: ' + player; playerEl.style.display='flex'; }
+  else { playerEl.style.display='none'; }
+
+  var sizesEl = document.getElementById('pmSizes');
+  sizesEl.innerHTML = '';
+  if(p.variants && p.variants.length > 0){
+    p.variants.forEach(function(sz){
+      var btn = document.createElement('button');
+      btn.className = 'pm-sz';
+      btn.textContent = sz;
+      btn.onclick = function(){
+        sizesEl.querySelectorAll('.pm-sz').forEach(function(b){ b.classList.remove('sel'); });
+        btn.classList.add('sel');
+        pmSelectedSize = sz;
+      };
+      sizesEl.appendChild(btn);
+    });
+    // Auto-select first
+    var first = sizesEl.querySelector('.pm-sz');
+    if(first){ first.click(); }
+  } else {
+    sizesEl.innerHTML = '<span style="font-size:12px;color:rgba(255,255,255,0.4)">Talla unica</span>';
+    pmSelectedSize = 'M';
+  }
+
+  document.getElementById('pmOverlay').classList.add('open');
+  document.getElementById('pmModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePM() {
+  document.getElementById('pmOverlay').classList.remove('open');
+  document.getElementById('pmModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+async function addFromModal() {
+  if(!pmSelectedSize){ showToast('Selecciona una talla', ''); return; }
+  var btn = document.getElementById('pmAtc');
+  btn.textContent = 'Anadiendo...';
+  btn.style.opacity = '0.6';
+  try {
+    await ensureCart();
+    var q = 'query { productByHandle(handle: "' + pmProduct.handle + '") { variants(first: 10) { edges { node { id availableForSale selectedOptions { name value } } } } } }';
+    var data = await shopifyFetch(q);
+    var variants = (data && data.productByHandle && data.productByHandle.variants.edges.map(function(e){ return e.node; })) || [];
+    var match = variants.find(function(v){ return v.selectedOptions.some(function(o){ return o.value.toUpperCase() === pmSelectedSize; }); }) || variants[0];
+    if(match){ await addToCart(match.id, 1, pmProduct.title); closePM(); }
+    else { showToast('Variante no disponible', 'error'); }
+  } catch(e) { showToast('Error. Intenta de nuevo.', 'error'); }
+  btn.textContent = '\uD83D\uDD25 Anadir al carrito';
+  btn.style.opacity = '1';
+}
+
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') closePM(); });
+</script>
+
+<a href="https://wa.me/34643420372?text=Hola%20quiero%20pedir%20una%20camiseta" target="_blank" 
+  style="position:fixed;bottom:24px;right:24px;z-index:400;width:56px;height:56px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,0.5);transition:transform 0.2s,box-shadow 0.2s;animation:waPulse 2s ease-in-out infinite"
+  onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+<style>
+@keyframes waPulse{0%,100%{box-shadow:0 4px 20px rgba(37,211,102,0.5)}50%{box-shadow:0 4px 32px rgba(37,211,102,0.8)}}
+</style>
+<div id="exitPopup" style="display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center">
+  <div style="background:#080e1a;border:1px solid rgba(245,196,0,0.3);max-width:480px;width:90%;padding:48px 40px;text-align:center;position:relative">
+    <button onclick="document.getElementById('exitPopup').style.display='none'" style="position:absolute;top:16px;right:16px;background:none;border:none;color:rgba(255,255,255,0.4);font-size:20px;cursor:pointer">&#10005;</button>
+    <div style="font-size:48px;margin-bottom:16px">&#128293;</div>
+    <h2 style="font-family:'Bebas Neue',sans-serif;font-size:40px;letter-spacing:0.04em;text-transform:uppercase;color:#fff;margin-bottom:8px">Espera! No te vayas</h2>
+    <p style="color:rgba(255,255,255,0.5);font-size:15px;margin-bottom:24px">Te damos un <strong style="color:#f5c400">10% de descuento</strong> en tu primer pedido si lo haces ahora.</p>
+    <div style="background:rgba(245,196,0,0.08);border:1px dashed rgba(245,196,0,0.4);padding:16px;margin-bottom:24px;font-family:monospace;font-size:20px;color:#f5c400;letter-spacing:0.2em">VANTIX10</div>
+    <p style="font-size:12px;color:rgba(255,255,255,0.3);margin-bottom:20px">Usa este codigo al pagar por WhatsApp</p>
+    <a href="#products" onclick="document.getElementById('exitPopup').style.display='none'" style="display:inline-flex;align-items:center;gap:8px;padding:0 32px;height:48px;background:#f5c400;color:#04080f;font-weight:700;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))">Quiero mi descuento &#8594;</a>
+  </div>
+</div>
+<script>
+var exitShown = false;
+document.addEventListener('mouseleave', function(e){
+  if(e.clientY < 10 && !exitShown){
+    exitShown = true;
+    document.getElementById('exitPopup').style.display = 'flex';
+  }
+});
+</script>
+<div id="spNotif" style="position:fixed;bottom:100px;left:24px;z-index:400;max-width:260px;background:#080e1a;border:1px solid rgba(255,255,255,0.1);padding:12px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 8px 32px rgba(0,0,0,0.5);transform:translateX(-320px);transition:transform 0.5s cubic-bezier(0.16,1,0.3,1)">
+  <div style="width:36px;height:36px;border-radius:50%;background:#003399;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px">&#9917;</div>
+  <div>
+    <div id="spName" style="font-size:12px;font-weight:600;margin-bottom:2px"></div>
+    <div id="spText" style="font-size:11px;color:rgba(255,255,255,0.5)"></div>
+  </div>
+</div>
+<script>
+var spData = [
+  {name:'Carlos M. (Madrid)', text:'Acaba de comprar Camiseta Espana'},
+  {name:'Justin R. (Barcelona)', text:'Acaba de comprar Barcelona Aurora'},
+  {name:'Alejandro G. (Valencia)', text:'Acaba de comprar Camiseta Argentina'},
+  {name:'Maria L. (Sevilla)', text:'Acaba de comprar Combo 2x50EUR'},
+  {name:'Pablo T. (Bilbao)', text:'Acaba de comprar Camiseta Portugal'},
+  {name:'Sofia R. (Malaga)', text:'Acaba de comprar Camiseta Colombia'},
+];
+var spIdx = 0;
+function showSP(){
+  var el = document.getElementById('spNotif');
+  var d = spData[spIdx % spData.length]; spIdx++;
+  document.getElementById('spName').textContent = d.name;
+  document.getElementById('spText').textContent = d.text;
+  el.style.transform = 'translateX(0)';
+  setTimeout(function(){ el.style.transform = 'translateX(-320px)'; }, 4000);
+}
+setTimeout(function(){ showSP(); setInterval(showSP, 12000); }, 5000);
+</script>
 </body>
 </html>

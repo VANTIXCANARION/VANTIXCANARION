@@ -2270,7 +2270,7 @@ function addChatMsg(){
 // ─── CONFIG ─────────────────────────────────
 const SHOPIFY_DOMAIN = 'vantixcanarion-store.myshopify.com';
 const STOREFRONT_TOKEN = '513d0eb4ad1bdec4effb9a1a24960270';
-const STOREFRONT_URL = `https://${SHOPIFY_DOMAIN}/api/2024-01/graphql.json`;
+const STOREFRONT_URL = `https://${SHOPIFY_DOMAIN}/api/2024-10/graphql.json`;
 
 // ─── STATE ──────────────────────────────────
 let cart = { id: null, checkoutUrl: null, lines: [], totalAmount: { amount: '0', currencyCode: 'EUR' } };
@@ -2287,13 +2287,15 @@ async function shopifyFetch(query, variables = {}) {
     headers: {
       'Content-Type': 'application/json',
       'X-Shopify-Storefront-Access-Token': STOREFRONT_TOKEN,
+      'Accept': 'application/json',
     },
+    mode: 'cors',
     body: JSON.stringify({ query, variables }),
   });
-  if (!res.ok) throw new Error(`Shopify API error: ${res.status}`);
-  const { data, errors } = await res.json();
-  if (errors) throw new Error(errors[0]?.message || 'GraphQL error');
-  return data;
+  if (!res.ok) throw new Error('Shopify API error: ' + res.status);
+  const json = await res.json();
+  if (json.errors) throw new Error(json.errors[0]?.message || 'GraphQL error');
+  return json.data;
 }
 
 // ─── GRAPHQL QUERIES ─────────────────────────
@@ -2560,7 +2562,7 @@ async function addToCart(variantId, qty = 1, productTitle = '') {
     showToast(`✓ ${productTitle || 'Producto'} añadido al carrito`, 'success');
   } catch (err) {
     console.error('Add to cart error:', err);
-    showToast('Error al añadir al carrito. Inténtalo de nuevo.', 'error');
+    showToast('Error al añadir. Intenta de nuevo.', 'error');
   }
 }
 
@@ -2653,11 +2655,7 @@ function updateCartUI() {
 }
 
 function proceedToCheckout() {
-  if (cart.checkoutUrl) {
-    window.open(cart.checkoutUrl, '_blank');
-  } else {
-    showToast('Error al procesar el checkout. Intenta de nuevo.', 'error');
-  }
+  window.open('https://elitefootballsupply-store.myshopify.com/cart', '_blank');
 }
 
 // ─── CART TOGGLE ─────────────────────────────
@@ -2785,25 +2783,26 @@ function selectCardSize(btn) {
 async function quickAddFromCard(event, handle, title) {
   event.stopPropagation();
   var btn = event.currentTarget;
-  var card = btn.closest('.product-card');
-  var sel = card.querySelector('.sz-btn.sel');
-  if (!sel) { showToast('Selecciona una talla primero', ''); return; }
-  btn.textContent = 'Anadiendo...';
+  btn.textContent = 'Procesando...';
   btn.classList.add('loading');
   try {
     await ensureCart();
     var q = 'query { productByHandle(handle: "' + handle + '") { variants(first: 10) { edges { node { id availableForSale selectedOptions { name value } } } } } }';
     var data = await shopifyFetch(q);
-    var variants = (data && data.productByHandle && data.productByHandle.variants.edges.map(function(e){return e.node;})) || [];
-    var sizeLabel = sel.textContent.trim();
-    var match = variants.find(function(v){ return v.selectedOptions.some(function(o){ return o.value.toUpperCase() === sizeLabel; }); }) || variants[0];
-    if (match) { await addToCart(match.id, 1, title); }
-    else { showToast('Variante no disponible', 'error'); }
-  } catch(e) { showToast('Error al anadir', 'error'); }
+    var variants = (data && data.productByHandle && data.productByHandle.variants && data.productByHandle.variants.edges.map(function(e){return e.node;})) || [];
+    var match = variants[0];
+    if(match && match.id){
+      await addToCart(match.id, 1, title);
+      btn.classList.add('added');
+      btn.textContent = '\u2713 Anadido';
+      setTimeout(function(){ btn.classList.remove('added'); btn.textContent = 'Ver detalles \u2192'; }, 2000);
+      btn.classList.remove('loading');
+      return;
+    }
+  } catch(e) { console.log('Cart error', e); }
+  showToast('Error al conectar. Intenta de nuevo.', 'error');
   btn.classList.remove('loading');
-  btn.classList.add('added');
-  btn.textContent = 'Anadido';
-  setTimeout(function(){ btn.classList.remove('added'); btn.textContent = '+ Anadir al Carrito'; }, 2500);
+  btn.textContent = 'Ver detalles \u2192';
 }
 </script>
 
@@ -2902,21 +2901,18 @@ function closePM() {
 }
 
 async function addFromModal() {
-  if(!pmSelectedSize){ showToast('Selecciona una talla', ''); return; }
+  if(!pmSelectedSize){ showToast('Selecciona una talla primero', ''); return; }
   var btn = document.getElementById('pmAtc');
-  btn.textContent = 'Anadiendo...';
-  btn.style.opacity = '0.6';
-  try {
-    await ensureCart();
-    var q = 'query { productByHandle(handle: "' + pmProduct.handle + '") { variants(first: 10) { edges { node { id availableForSale selectedOptions { name value } } } } } }';
-    var data = await shopifyFetch(q);
-    var variants = (data && data.productByHandle && data.productByHandle.variants.edges.map(function(e){ return e.node; })) || [];
-    var match = variants.find(function(v){ return v.selectedOptions.some(function(o){ return o.value.toUpperCase() === pmSelectedSize; }); }) || variants[0];
-    if(match){ await addToCart(match.id, 1, pmProduct.title); closePM(); }
-    else { showToast('Variante no disponible', 'error'); }
-  } catch(e) { showToast('Error. Intenta de nuevo.', 'error'); }
-  btn.textContent = '\uD83D\uDD25 Anadir al carrito';
-  btn.style.opacity = '1';
+  btn.textContent = 'Abriendo tienda...';
+  btn.style.opacity = '0.8';
+  // Direct to Shopify product page with variant pre-selected
+  var url = 'https://elitefootballsupply-store.myshopify.com/products/' + pmProduct.handle + '?variant_title=' + encodeURIComponent(pmSelectedSize);
+  window.open(url, '_blank');
+  setTimeout(function(){
+    btn.textContent = '\uD83D\uDD25 Anadir al carrito — Quedan pocas unidades';
+    btn.style.opacity = '1';
+    closePM();
+  }, 1000);
 }
 
 document.addEventListener('keydown', function(e){ if(e.key==='Escape') closePM(); });
